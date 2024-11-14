@@ -1,67 +1,56 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-int main() {
-    int j = 0, i = 0, n = 0, d = 0;
-    char a[20], c = 'A';
+int main()
+{
+    char input[] = "a+b*c+d";
+    char temp = 'A';
+    
 
-    printf("Enter the code: ");
-    scanf("%s", a);
-
-    // Calculate the length of the input code
-    while (a[i] != '\0') {
-        n = n + 1;
-        i = i + 1;
+    int i = 0;
+    while (input[i] != '\0') {
+        if (input[i] == '*' || input[i] == '/') {
+            printf("\n%c = %c %c %c", temp, input[i - 1], input[i], input[i + 1]);
+            input[i - 1] = temp;  // Replace the left operand with the temporary variable
+            int j = i + 2;  // Skip the right operand and operator
+            
+            // Shift the rest of the string left
+            while (input[j] != '\0') {
+                input[i] = input[j];
+                i++;
+                j++;
+            }
+            input[i] = '\0';  // Null-terminate the string after shifting
+            
+            temp++;  // Move to the next temporary variable
+            i = 0;  // Reset index to re-scan from the beginning
+        }
+        else {
+            i++;
+        }
     }
 
-    // Process the code for operators
-    for (j = 0; j < n; j++) {
-        for (i = 0; i < n; i++) {
-            if (a[i] == '*' || a[i] == '/') {
-                d = i - 1;
-                while (a[d] == ' ') {
-                    d = d - 1;
-                }
-                if (d != (i - 1)) {
-                    printf("%c = %c %c %c\n", c, a[d], a[i], a[i + 1]);
-                    a[d] = c;
-                    a[i] = ' ';
-                    a[i + 1] = ' ';
-                    c = c + 1;
-                    continue;
-                } else if (d == (i - 1)) {
-                    printf("%c = %c %c %c\n", c, a[i - 1], a[i], a[i + 1]);
-                    a[i - 1] = c;
-                    a[i] = ' ';
-                    a[i + 1] = ' ';
-                    c = c + 1;
-                    continue;
-                }
+    i = 0;  // Reset index for the next pass
+    while (input[i] != '\0') {
+        if (input[i] == '+' || input[i] == '-') {
+            printf("\n%c = %c %c %c", temp, input[i - 1], input[i], input[i + 1]);
+            input[i - 1] = temp;  // Replace the left operand with the temporary variable
+            int j = i + 2;  // Skip the right operand and operator
+            
+            // Shift the rest of the string left
+            while (input[j] != '\0') {
+                input[i] = input[j];
+                i++;
+                j++;
             }
+            input[i] = '\0';  // Null-terminate the string after shifting
+            
+            temp++;  // Move to the next temporary variable
+            i = 0;  // Reset index to re-scan from the beginning
         }
-        
-        for (i = 0; i < n; i++) {
-            if (a[i] == '+' || a[i] == '-') {
-                d = i - 1;
-                while (a[d] == ' ') {
-                    d = d - 1;
-                }
-                if (d != (i - 1)) {
-                    printf("%c = %c %c %c\n", c, a[d], a[i], a[i + 1]);
-                    a[d] = c;
-                    a[i] = ' ';
-                    a[i + 1] = ' ';
-                    c = c + 1;
-                    continue;
-                } else if (d == (i - 1)) {
-                    printf("%c = %c %c %c\n", c, a[i - 1], a[i], a[i + 1]);
-                    a[i - 1] = c;
-                    a[i] = ' ';
-                    a[i + 1] = ' ';
-                    c = c + 1;
-                    continue;
-                }
-            }
+        else {
+            i++;
         }
     }
 
